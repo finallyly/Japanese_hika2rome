@@ -53,11 +53,17 @@ if __name__=="__main__":
         sys.exit(1);
     #Process(sys.argv[1],sys.argv[2],sys.argv[3]);
 
-    #annoworker=RomeAnnotation.RomeAnnotator();
-    #annoworker.loadWordList("RomeAnno/jprome.txt");
+    annoworker=RomeAnnotation.RomeAnnotator();
+    annoworker.loadWordList("RomeAnno/jprome.txt");
     #seg=annoworker.DynamicShortestPathSegment("ようごしゅう");
     #for m in seg:
     #    print m;
-    #anno=annoworker.AnnotateByWordSegmentor("ようごしゅう");
-    #for m in anno:
-    #    print m;
+    anno=annoworker.AnnotateByWordSegmentor("きっさてん");
+    for m in anno:
+        print m;
+    anno=annoworker.AnnotateByWordSegmentor("さっしゅ");
+    for m in anno:
+        print m;
+    anno=annoworker.AnnotateByWordSegmentor("ふつう");
+    for m in anno:
+        print m;

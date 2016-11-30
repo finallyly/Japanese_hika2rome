@@ -121,9 +121,12 @@ class RomeAnnotator:
                 if pos==len(seg)-1:
                     score = 1.0;
                     mystr="";
+                    #促音时用于保留第二候选,即吞掉促音xtu的注音方式,
+                    #即：きっさてん 注音成ki'xtu'ssa'te'nn和ki'ssa'te'nn都可以
+                    mystr2="";
                     #用flag标注促音
-                    flag=0;
                     for i in range(0,len(seg)):
+                        flag=0;
                         if i >0 and seg[i]!="ー" and (seg[i-1]=="っ"or seg[i-1]=="ッ"):
                             flag=1;
                         if flag == 0:
@@ -132,14 +135,24 @@ class RomeAnnotator:
                             else:
                                 mystr+="'";
                                 mystr+=self.wordict[seg[i]][now[i]][0];
+                                if mystr2!="":
+                                    mystr2+="'";
+                                    mystr2+=self.wordict[seg[i]][now[i]][0];
                         else:
                             if mystr=="":
                                 mystr+=(self.wordict[seg[i]][now[i]][0][0:1]+self.wordict[seg[i]][now[i]][0]);
                             else:
+                                mystr2=mystr;
+                                subcol=mystr2.split("'");
+                                mystr2="'".join(subcol[:-1]);
                                 mystr+="'";
+                                mystr2+="'";
+                                mystr2+=(self.wordict[seg[i]][now[i]][0][0:1]+self.wordict[seg[i]][now[i]][0]);
                                 mystr+=(self.wordict[seg[i]][now[i]][0][0:1]+self.wordict[seg[i]][now[i]][0]);
                         score*=self.wordict[seg[i]][now[i]][1];
                     finalresult.append((mystr,score));
+                    if mystr2!="":
+                        finalresult.append((mystr2,score));
                 else:
                     pos+=1;
              else:
